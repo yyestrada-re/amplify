@@ -1,8 +1,10 @@
 import React from "react";
 import {Image, View, Icon, tab} from 'react-native';
-import {createBottomTabNavigator, createAppContainer} from 'react-navigation';
+import {createAppContainer} from 'react-navigation';
+import { createBottomTabNavigator } from 'react-navigation-tabs';
 
 import Home from './Home';
+
 
 const TabNavigator = createBottomTabNavigator ({
  Home: {

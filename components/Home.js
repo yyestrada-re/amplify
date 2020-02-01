@@ -2,18 +2,15 @@ import React, {Component} from 'react';
 import {TouchableOpacity, Image, Text, View, StyleSheet } from 'react-native';
 import { Constants } from 'expo';
 
-import { ScrollView } from 'react-native-gesture-handler';
 
 export default class Home extends React.Component {
-  static route = {
-    navigationBar: {
-      visible: false,
-    },
-  };
+  static headerShown = {header: false} 
 
   render() {
     return (
-      <Text>Hola</Text>
+      <View>
+        <Text>this is my imaginary list</Text>
+      </View>
     )
   }
 }
