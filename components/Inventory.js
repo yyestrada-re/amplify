@@ -1,24 +1,67 @@
 import React, {Component} from 'react';
-import {TouchableOpacity, Image, Text, View, StyleSheet, TextInput } from 'react-native';
+import {TouchableOpacity, TouchableWithoutFeedback, Image, Text, View, StyleSheet, TextInput } from 'react-native';
 import Logo from './Logo';
+import DateTimePicker from '@react-native-community/datetimepicker';
 
 export default class Inventory extends React.Component {
 
   constructor(props) {
     super(props);
     this.state = {
-      itemName: ''
+      itemName: '',
+      quantity: '',
+      date: new Date(),
+      showDate: false,
+      showName: false,
+      showQuantity: false,
     };
   }
 
-  handleNameChange = (event) => {
+  handleSubmit = () => {
+    console.log(this.state.date.toLocaleDateString())
+    console.log(this.state.itemName)
+    console.log(this.state.quantity)
+    AWS.config.update({region: "us-east-2", credentials:{secretAccessKey: "LvtfTtrz/gSM/fXAaUh/xrqBJLvHLqAYRV3PhMU3", accessKeyId: "AKIA5GSQCVJRPQYHA7VT"}})
+    var ddb = new AWS.DynamoDB({apiVersion: "2012-08-10"})
+    var params = {
+      TableName: 'Fridge',
+      Item: {
+        'Exp' : {S: this.state.date.toLocaleDateString()},
+        'FridgeId' : {S: this.state.itemName},
+        'quant' : {N: this.state.quantity},
+      }
+    };
+    
+    // Call DynamoDB to add the item to the table
+    ddb.putItem(params, function(err, data) {
+      if (err) {
+        console.log("Error", err);
+      } else {
+        console.log("Success", data);
+      }
+    });
+
     this.setState({
-      itemName: event.target.value,
+      itemName: '',
+      quantity: '',
+      date: new Date(),
+      showDate: false,
+      showName: false,
+      showQuantity: false,
     })
   }
 
-  handleSubmit = () => {
-    
+  showDatepicker = () => {
+    this.setState({
+      showDate: true,
+    })
+  }
+
+  hideDatepicker = () => {
+    console.log("I clicked outside of it")
+    this.setState({
+      showDate: false,
+    })
   }
 
   static navigationOptions = {
@@ -27,17 +70,62 @@ export default class Inventory extends React.Component {
       backgroundColor: '#000000',
     },
   };
+
   render() {
     return (
       <View style = {styles.container}>
-          <Text style = {{fontSize: 30, alignContent: 'center', paddingLeft: 15, paddingTop: 25, lineHeight: 48, paddingBottom: 8, color: '#fff'}}>add a new item!</Text>
+          <Text style = {{fontSize: 30, alignContent: 'center', paddingLeft: 15, paddingTop: 25, lineHeight: 48, paddingBottom: 8, color: '#fff'}}>Add a new item!</Text>
           <TextInput
-            style={{height: 50, width: 200, backgroundColor: '#fff',}}
-            placeholder="enter item name"
-            onChange={this.handleNameChange}
+            style={{height: 40, width: 200, backgroundColor: '#fff',}}
+            placeholder="item name"
+            onChangeText={(text) => this.setState({itemName: text})}
             value={this.state.itemName}
             maxLength={30}
+            spellCheck={true}
           />
+          <TextInput
+            style={{height: 40, width: 100, backgroundColor: '#fff',}}
+            placeholder="quantity"
+            onChangeText={(text) => this.setState({quantity: text})}
+            value={`${this.state.quantity}`}
+            min="0"
+            keyboardType="numeric"
+          /> 
+          {this.state.showDate ? (
+            <TouchableWithoutFeedback 
+              onPress={ () => this.setState({showDate:false}) }
+            >
+              <View>
+                <DateTimePicker value={this.state.date}
+                  is24Hour={true}
+                  display="default"
+                  onChange={this.setDate}
+                  style={{backgroundColor: '#fff',}}
+                />
+              </View>
+            </TouchableWithoutFeedback>
+            ) : (
+              <View>
+                <TouchableOpacity 
+                  onPress={this.showDatepicker} 
+                  title="Show date picker!" 
+                  style={{
+                  borderWidth: 1,
+                  borderColor:'rgba(0,0,0,0.2)',
+                  alignItems:'center',
+                  justifyContent:'center',
+                  width: 100,
+                  position: 'absolute',                                          
+                  bottom: 0,                                                    
+                  right: 20,
+                  height: 70,
+                  backgroundColor:'#9AB4FD',
+                  borderRadius: 20,}}>
+                  <Text style = {{fontSize: 14, paddingBottom: 6, alignContent: 'center', color: '#fff'}}>Select expiration</Text>
+                </TouchableOpacity>
+              </View>
+            )
+          }
           <TouchableOpacity
             style={{
             borderWidth: 1,
@@ -46,7 +134,7 @@ export default class Inventory extends React.Component {
             justifyContent:'center',
             width: 100,
             position: 'absolute',                                          
-            bottom: 130,                                                    
+            bottom: 30,                                                    
             right: 20,
             height: 70,
             backgroundColor:'#9AB4FD',
