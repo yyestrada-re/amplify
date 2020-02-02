@@ -18,9 +18,6 @@ export default class Inventory extends React.Component {
   }
 
   handleSubmit = () => {
-    console.log(this.state.date.toLocaleDateString())
-    console.log(this.state.itemName)
-    console.log(this.state.quantity)
     AWS.config.update({region: "us-east-2", credentials:{secretAccessKey: "LvtfTtrz/gSM/fXAaUh/xrqBJLvHLqAYRV3PhMU3", accessKeyId: "AKIA5GSQCVJRPQYHA7VT"}})
     var ddb = new AWS.DynamoDB({apiVersion: "2012-08-10"})
     var params = {

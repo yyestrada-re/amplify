@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import {TouchableOpacity, TouchableWithoutFeedback, Image, Text, View, StyleSheet, TextInput } from 'react-native';
 import Logo from './Logo';
 import DateTimePicker from '@react-native-community/datetimepicker';
+import { Alert} from 'react-native'
 
 export default class NewCartItem extends React.Component {
 
@@ -14,12 +15,41 @@ export default class NewCartItem extends React.Component {
       showDate: false,
       showName: false,
       showQuantity: false,
+      fridgeList: [],
     };
+  }
+
+  componentDidMount() {
+    AWS.config.update({region: "us-east-2", credentials:{secretAccessKey: "LvtfTtrz/gSM/fXAaUh/xrqBJLvHLqAYRV3PhMU3", accessKeyId: "AKIA5GSQCVJRPQYHA7VT"}})
+    var ddb = new AWS.DynamoDB({apiVersion: "2012-08-10"})
+    var params = {
+    ProjectionExpression: 'FridgeId, Exp, quant',
+    TableName: 'Fridge'
+    };
+      
+    ddb.scan(params, (err, data) => {
+    let tempList = []
+    if (err) {
+        console.log("Error", err);
+    } else {
+        console.log("Success", data.Items);
+        data.Items.forEach(function(element, index, array) {
+        tempList = tempList.concat(element.FridgeId.S)
+        });
+    }
+    this.setState({
+        fridgeList: tempList,
+    })
+    });
   }
 
   handleSubmit = () => {
     AWS.config.update({region: "us-east-2", credentials:{secretAccessKey: "LvtfTtrz/gSM/fXAaUh/xrqBJLvHLqAYRV3PhMU3", accessKeyId: "AKIA5GSQCVJRPQYHA7VT"}})
     var ddb = new AWS.DynamoDB({apiVersion: "2012-08-10"})
+    let check = this.state.fridgeList.filter((item) => item === this.state.itemName)
+    if(check.length > 0) {
+        Alert.alert("you already have this item!")
+    }
     var params = {
       TableName: 'Cart',
       Item: {
