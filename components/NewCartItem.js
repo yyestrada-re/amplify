@@ -46,36 +46,38 @@ export default class NewCartItem extends React.Component {
   handleSubmit = () => {
     AWS.config.update({region: "us-east-2", credentials:{secretAccessKey: "LvtfTtrz/gSM/fXAaUh/xrqBJLvHLqAYRV3PhMU3", accessKeyId: "AKIA5GSQCVJRPQYHA7VT"}})
     var ddb = new AWS.DynamoDB({apiVersion: "2012-08-10"})
-    let check = this.state.fridgeList.filter((item) => item === this.state.itemName)
+    let check = this.state.fridgeList.filter((item) => item.toLowerCase() === this.state.itemName.toLowerCase())
     if(check.length > 0) {
         Alert.alert("you already have this item!")
-    }
-    var params = {
-      TableName: 'Cart',
-      Item: {
-        'Exp' : {S: this.state.date.toLocaleDateString()},
-        'CartId' : {S: this.state.itemName},
-        'quant' : {N: this.state.quantity},
-      }
-    };
-    
-    // Call DynamoDB to add the item to the table
-    ddb.putItem(params, function(err, data) {
-      if (err) {
-        console.log("Error", err);
-      } else {
-        console.log("Success", data);
-      }
-    });
+    } else {
+        var params = {
+        TableName: 'Cart',
+        Item: {
+            'Exp' : {S: this.state.date.toLocaleDateString()},
+            'CartId' : {S: this.state.itemName},
+            'quant' : {N: this.state.quantity},
+        }
+        };
+        
+        // Call DynamoDB to add the item to the table
+        ddb.putItem(params, function(err, data) {
+        if (err) {
+            console.log("Error", err);
+        } else {
+            console.log("Success", data);
+        }
+        });
 
-    this.setState({
-      itemName: '',
-      quantity: '',
-      date: new Date(),
-      showDate: false,
-      showName: false,
-      showQuantity: false,
-    })
+        this.setState({
+            itemName: '',
+            quantity: '',
+            date: new Date(),
+            showDate: false,
+            showName: false,
+            showQuantity: false,
+        })
+    }
+    
   }
 
   showDatepicker = () => {
