@@ -1,9 +1,10 @@
 import React, {Component} from 'react';
 import {TouchableOpacity, Image, Text, View, StyleSheet, Button } from 'react-native';
+import {createAppContainer} from 'react-navigation';
+import {createStackNavigator} from 'react-navigation-stack';
 
-export default class Home extends React.Component {
+export default class Groceries extends React.Component {
   render() {
-    const {navigate} = this.props.navigation;
     return (
       <View style = {styles.container}>
         <TouchableOpacity
@@ -19,7 +20,7 @@ export default class Home extends React.Component {
           height: 70,
           backgroundColor:'#9AB4FD',
           borderRadius:100,}}
-          onPress={() => navigate('Inventory')}>
+         >
           <Text style = {{fontSize: 42, paddingBottom: 6, alignContent: 'center', color: '#fff'}}>+</Text>
         </TouchableOpacity>
         <TouchableOpacity
@@ -35,13 +36,11 @@ export default class Home extends React.Component {
           height: 70,
           backgroundColor:'#9AB4FD',
           borderRadius:100,}}
-          onPress={() => navigate('Inventory')}>
+         >
           <Text style = {{fontSize: 45, alignContent: 'center', paddingBottom: 36, color: '#fff'}}>_</Text>
         </TouchableOpacity>
-        <Text style = {{fontSize: 30, alignContent: 'center', paddingLeft: 15, paddingTop: 25, lineHeight: 48, paddingBottom: 8, color: '#fff'}}>welcome back! here's your current inventory:</Text>
-        
-     
-    </View>
+        <Text style = {{fontSize: 30, alignContent: 'center', paddingLeft: 15, paddingTop: 25, lineHeight: 48, paddingBottom: 8, color: '#fff'}}>hey! here's your current shopping list:</Text>
+      </View>
     );
   }
 }
