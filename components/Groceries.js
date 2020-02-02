@@ -48,6 +48,7 @@ export default class Groceries extends React.Component {
   }
 
   render() {
+    const {navigate} = this.props.navigation;
     return (
       <View style = {styles.container}>
         <TouchableOpacity
@@ -63,6 +64,7 @@ export default class Groceries extends React.Component {
           height: 70,
           backgroundColor:'#9AB4FD',
           borderRadius:100,}}
+          onPress={() => navigate('NewCartItem')}
          >
           <Text style = {{fontSize: 42, paddingBottom: 6, alignContent: 'center', color: '#fff'}}>+</Text>
         </TouchableOpacity>
