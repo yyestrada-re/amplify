@@ -5,6 +5,7 @@ import AWS from "aws-sdk";
 
 import Item from "./Item.js"
 
+
 export default class Home extends React.Component {
   static headerShown = {header: false} 
 
