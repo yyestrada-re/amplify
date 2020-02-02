@@ -3,43 +3,82 @@ import {TouchableOpacity, Image, Text, View, StyleSheet, Button } from 'react-na
 import { Constants } from 'expo';
 import AWS from "aws-sdk";
 
+import Item from "./Item.js"
+
 export default class Home extends React.Component {
   static headerShown = {header: false} 
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      fridgeList: [],
+    }
+  }
 
   componentDidMount() {
     AWS.config.update({region: "us-east-2", credentials:{secretAccessKey: "LvtfTtrz/gSM/fXAaUh/xrqBJLvHLqAYRV3PhMU3", accessKeyId: "AKIA5GSQCVJRPQYHA7VT"}})
     var ddb = new AWS.DynamoDB({apiVersion: "2012-08-10"})
-    ddb.listTables({}, function(err,data) {
-      if(err) {
-        console.log("Error", err.code);
+    // ddb.listTables({}, function(err,data) {
+    //   if(err) {
+    //     console.log("Error", err.code);
+    //   } else {
+    //     console.log("Tables names are", data.TableNames);
+    //   }
+    // });
+
+    // var params = {
+    //   TableName: "Cart",
+    // }
+
+    // ddb.describeTable(params, function(err,data) {
+    //   if(err) {
+    //     console.log("Error", err);
+    //   } else {
+    //     console.log("Success", data.Table.KeySchema)
+    //   }
+    // })
+
+    // var params = {
+    //   TableName: "Fridge",
+    // }
+
+    // ddb.describeTable(params, function(err,data) {
+    //   if(err) {
+    //     console.log("Error", err);
+    //   } else {
+    //     console.log("Success", data.Table.KeySchema)
+    //   }
+    // })
+
+    var params = {
+      ProjectionExpression: 'FridgeId, Exp, quant',
+      TableName: 'Fridge'
+    };
+    
+    ddb.scan(params, (err, data) => {
+      let tempList = []
+      if (err) {
+        console.log("Error", err);
       } else {
-        console.log("Tables names are", data.TableNames);
+        console.log("Success", data.Items);
+        data.Items.forEach(function(element, index, array) {
+          tempList = tempList.concat(element)
+        });
       }
+      this.setState({
+        fridgeList: tempList,
+      })
     });
 
-    var params = {
-      TableName: "Cart",
-    }
+  }
 
-    ddb.describeTable(params, function(err,data) {
-      if(err) {
-        console.log("Error", err);
-      } else {
-        console.log("Success", data.Table.KeySchema)
-      }
-    })
-
-    var params = {
-      TableName: "Fridge",
-    }
-
-    ddb.describeTable(params, function(err,data) {
-      if(err) {
-        console.log("Error", err);
-      } else {
-        console.log("Success", data.Table.KeySchema)
-      }
-    })
+  renderItems() {
+    return (this.state.fridgeList.map((fridgeItem, index) => {
+      return (
+        <Item name={fridgeItem.FridgeId.S} expiration={fridgeItem.Exp.S} quantity={fridgeItem.quant.N}/>
+        //<Text key={index} style = {{fontSize: 25, paddingBottom: 6, alignContent: 'center', color: '#fff'}}>{fridgeItem.FridgeId.S}</Text>
+      )
+    }))
   }
 
   render() {
@@ -79,8 +118,8 @@ export default class Home extends React.Component {
           <Text style = {{fontSize: 45, alignContent: 'center', paddingBottom: 36, color: '#fff'}}>_</Text>
         </TouchableOpacity>
         <Text style = {{fontSize: 30, alignContent: 'center', paddingLeft: 15, paddingTop: 25, lineHeight: 48, paddingBottom: 8, color: '#fff'}}>welcome back! here's your current inventory:</Text>  
-     
-    </View>
+        <View>{this.renderItems()}</View>
+      </View>
     );
   }
 }

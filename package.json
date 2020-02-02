@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "@material-ui/core": "^4.9.0",
+    "@react-native-community/datetimepicker": "^2.1.2",
     "@react-native-community/masked-view": "0.1.5",
     "aws-sdk": "^2.610.0",
     "axios": "^0.19.2",
