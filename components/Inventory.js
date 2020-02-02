@@ -74,7 +74,7 @@ export default class Inventory extends React.Component {
   render() {
     return (
       <View style = {styles.container}>
-          <Text style = {{fontSize: 30, alignContent: 'center', paddingLeft: 15, paddingTop: 25, lineHeight: 48, color: '#fff'}}>Add a new item!</Text>
+          <Text style = {{fontSize: 30, alignContent: 'center', paddingLeft: 15, paddingTop: 25, lineHeight: 48, color: '#fff'}}>add a new item!</Text>
           <Text style = {{fontSize: 18, alignContent: 'center', paddingLeft: 15, lineHeight: 48, paddingBottom: 8, color: '#fff'}}>to your fridge/pantry</Text>
           <TextInput
             style={{height: 40, width: 200, backgroundColor: '#fff', borderRadius: 4,}}
@@ -143,6 +143,21 @@ export default class Inventory extends React.Component {
             onPress={this.handleSubmit}>
             <Text style = {{fontSize: 20, paddingBottom: 6, alignContent: 'center', color: '#fff'}}>add</Text>
           </TouchableOpacity>
+          <TouchableOpacity
+            style={{
+            borderWidth: 1,
+            borderColor:'rgba(0,0,0,0.2)',
+            alignItems:'center',
+            justifyContent:'center',
+            width: 65,
+            position: 'absolute',                                          
+            bottom: 500,                                                    
+            right: 25,
+            height: 30,
+            borderRadius: 20,}}
+            onPress={() => this.props.navigation.navigate('Home')}>
+            <Text style = {{fontSize: 18, paddingBottom: 6, alignContent: 'center', color: '#fff'}}>Done</Text>
+          </TouchableOpacity> 
       </View>
     );
   }
