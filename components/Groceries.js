@@ -41,13 +41,14 @@ export default class Groceries extends React.Component {
   renderItems() {
     return (this.state.cartList.map((cartItem, index) => {
       return (
-        <Item name={cartItem.CartId.S} expiration={cartItem.Exp.S} quantity={cartItem.quant.N}/>
+        <Item key={index} name={cartItem.CartId.S} expiration={cartItem.Exp.S} quantity={cartItem.quant.N}/>
         // <Text key={index} style = {{fontSize: 25, paddingBottom: 6, alignContent: 'center', color: '#fff'}}>{cartItem.CartId.S}</Text>
       )
     }))
   }
 
   render() {
+    const {navigate} = this.props.navigation;
     return (
       <View style = {styles.container}>
         <TouchableOpacity
@@ -63,6 +64,7 @@ export default class Groceries extends React.Component {
           height: 70,
           backgroundColor:'#9AB4FD',
           borderRadius:100,}}
+          onPress={() => navigate('NewCartItem')}
          >
           <Text style = {{fontSize: 42, paddingBottom: 6, alignContent: 'center', color: '#fff'}}>+</Text>
         </TouchableOpacity>

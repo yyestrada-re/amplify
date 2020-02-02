@@ -4,6 +4,7 @@ import { Constants } from 'expo';
 import AWS from "aws-sdk";
 
 import Item from "./Item.js"
+import Inventory from "./Inventory.js"
 
 
 export default class Home extends React.Component {
@@ -76,7 +77,7 @@ export default class Home extends React.Component {
   renderItems() {
     return (this.state.fridgeList.map((fridgeItem, index) => {
       return (
-        <Item name={fridgeItem.FridgeId.S} expiration={fridgeItem.Exp.S} quantity={fridgeItem.quant.N}/>
+        <Item key={index} name={fridgeItem.FridgeId.S} expiration={fridgeItem.Exp.S} quantity={fridgeItem.quant.N}/>
         //<Text key={index} style = {{fontSize: 25, paddingBottom: 6, alignContent: 'center', color: '#fff'}}>{fridgeItem.FridgeId.S}</Text>
       )
     }))

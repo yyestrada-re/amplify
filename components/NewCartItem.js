@@ -3,7 +3,7 @@ import {TouchableOpacity, TouchableWithoutFeedback, Image, Text, View, StyleShee
 import Logo from './Logo';
 import DateTimePicker from '@react-native-community/datetimepicker';
 
-export default class Inventory extends React.Component {
+export default class NewCartItem extends React.Component {
 
   constructor(props) {
     super(props);
@@ -18,16 +18,13 @@ export default class Inventory extends React.Component {
   }
 
   handleSubmit = () => {
-    console.log(this.state.date.toLocaleDateString())
-    console.log(this.state.itemName)
-    console.log(this.state.quantity)
     AWS.config.update({region: "us-east-2", credentials:{secretAccessKey: "LvtfTtrz/gSM/fXAaUh/xrqBJLvHLqAYRV3PhMU3", accessKeyId: "AKIA5GSQCVJRPQYHA7VT"}})
     var ddb = new AWS.DynamoDB({apiVersion: "2012-08-10"})
     var params = {
-      TableName: 'Fridge',
+      TableName: 'Cart',
       Item: {
         'Exp' : {S: this.state.date.toLocaleDateString()},
-        'FridgeId' : {S: this.state.itemName},
+        'CartId' : {S: this.state.itemName},
         'quant' : {N: this.state.quantity},
       }
     };
@@ -72,10 +69,11 @@ export default class Inventory extends React.Component {
   };
 
   render() {
+    const {navigate} = this.props.navigation;
     return (
       <View style = {styles.container}>
           <Text style = {{fontSize: 30, alignContent: 'center', paddingLeft: 15, paddingTop: 25, lineHeight: 48, color: '#fff'}}>add a new item!</Text>
-          <Text style = {{fontSize: 18, alignContent: 'center', paddingLeft: 15, lineHeight: 48, paddingBottom: 8, color: '#fff'}}>to your fridge/pantry</Text>
+          <Text style = {{fontSize: 18, alignContent: 'center', paddingLeft: 15, lineHeight: 48, paddingBottom: 8, color: '#fff'}}>to shopping cart</Text>
           <TextInput
             style={{height: 40, width: 200, backgroundColor: '#fff', borderRadius: 4,}}
             placeholder="item name"
@@ -155,7 +153,7 @@ export default class Inventory extends React.Component {
             right: 25,
             height: 30,
             borderRadius: 20,}}
-            onPress={() => this.props.navigation.navigate('Home')}>
+            onPress={() => this.props.navigation.navigate('Groceries')}>
             <Text style = {{fontSize: 18, paddingBottom: 6, alignContent: 'center', color: '#fff'}}>Done</Text>
           </TouchableOpacity> 
       </View>
