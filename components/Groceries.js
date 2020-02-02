@@ -39,7 +39,7 @@ export default class Groceries extends React.Component {
   }
 
   renderItems() {
-    return (this.state.cartList.map((cartItem, index) => {
+    return (this.state.cartList.sort((a,b) => (a.CartId.S > b.CartId.S) ? 1: -1).map((cartItem, index) => {
       return (
         <Item key={index} name={cartItem.CartId.S} expiration={cartItem.Exp.S} quantity={cartItem.quant.N}/>
         // <Text key={index} style = {{fontSize: 25, paddingBottom: 6, alignContent: 'center', color: '#fff'}}>{cartItem.CartId.S}</Text>

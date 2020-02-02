@@ -74,7 +74,7 @@ export default class Home extends React.Component {
   }
 
   renderItems() {
-    return (this.state.fridgeList.map((fridgeItem, index) => {
+    return (this.state.fridgeList.sort((a,b) => (a.FridgeId.S > b.FridgeId.S) ? 1: -1).map((fridgeItem, index) => {
       return (
         <Item key={index} name={fridgeItem.FridgeId.S} expiration={fridgeItem.Exp.S} quantity={fridgeItem.quant.N}/>
         //<Text key={index} style = {{fontSize: 25, paddingBottom: 6, alignContent: 'center', color: '#fff'}}>{fridgeItem.FridgeId.S}</Text>
