@@ -62,6 +62,7 @@ export default class NewCartItem extends React.Component {
         // Call DynamoDB to add the item to the table
         ddb.putItem(params, function(err, data) {
         if (err) {
+            Alert.alert("Please enter valid inputs")
             console.log("Error", err);
         } else {
             console.log("Success", data);

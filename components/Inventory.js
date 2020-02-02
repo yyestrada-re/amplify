@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import {TouchableOpacity, TouchableWithoutFeedback, Image, Text, View, StyleSheet, TextInput } from 'react-native';
 import Logo from './Logo';
 import DateTimePicker from '@react-native-community/datetimepicker';
+import { Alert} from 'react-native'
 
 export default class Inventory extends React.Component {
 
@@ -32,6 +33,7 @@ export default class Inventory extends React.Component {
     // Call DynamoDB to add the item to the table
     ddb.putItem(params, function(err, data) {
       if (err) {
+        Alert.alert("Please enter valid inputs")
         console.log("Error", err);
       } else {
         console.log("Success", data);
