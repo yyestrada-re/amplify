@@ -39,7 +39,8 @@ export default class Home extends React.Component {
       } else {
         console.log("Success", data.Table.KeySchema)
       }
-    })
+    });
+    
   }
 
   render() {
