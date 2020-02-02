@@ -77,7 +77,7 @@ export default class Inventory extends React.Component {
           <Text style = {{fontSize: 30, alignContent: 'center', paddingLeft: 15, paddingTop: 25, lineHeight: 48, color: '#fff'}}>add a new item!</Text>
           <Text style = {{fontSize: 18, alignContent: 'center', paddingLeft: 15, lineHeight: 48, paddingBottom: 8, color: '#fff'}}>to your fridge/pantry</Text>
           <TextInput
-            style={{height: 40, width: 200, backgroundColor: '#fff', borderRadius: 4,}}
+            style={{height: 40, width: 200, backgroundColor: '#fff', borderRadius: 4, paddingLeft: 20, marginLeft: 20, marginBottom: 15}}
             placeholder="item name"
             onChangeText={(text) => this.setState({itemName: text})}
             value={this.state.itemName}
@@ -85,7 +85,7 @@ export default class Inventory extends React.Component {
             spellCheck={true}
           />
           <TextInput
-            style={{height: 40, width: 100, backgroundColor: '#fff', borderRadius: 4,}}
+            style={{height: 40, width: 200, backgroundColor: '#fff', borderRadius: 4, paddingLeft: 20, marginLeft: 20}}
             placeholder="quantity"
             onChangeText={(text) => this.setState({quantity: text})}
             value={`${this.state.quantity}`}
@@ -101,7 +101,7 @@ export default class Inventory extends React.Component {
                   is24Hour={true}
                   display="default"
                   onChange={this.setDate}
-                  style={{backgroundColor: '#fff',}}
+                  style={{backgroundColor: '#000000',}}
                 />
               </View>
             </TouchableWithoutFeedback>
@@ -113,16 +113,18 @@ export default class Inventory extends React.Component {
                   style={{
                   borderWidth: 1,
                   borderColor:'rgba(0,0,0,0.2)',
-                  alignItems:'center',
-                  justifyContent:'center',
-                  width: 100,
-                  position: 'absolute',                                          
-                  bottom: 0,                                                    
+                  width: 200,
+                  position: 'relative',      
+                  paddingLeft: 20,
+                  paddingTop: 12,                                    
+                  marginLeft: 38,    
+                  marginTop: 20,                                              
                   right: 20,
-                  height: 70,
+                  color: 'white',
+                  height: 50,
                   backgroundColor:'#9AB4FD',
                   borderRadius: 20,}}>
-                  <Text style = {{fontSize: 14, paddingBottom: 6, alignContent: 'center', color: '#fff'}}>Select expiration</Text>
+                  <Text style = {{fontSize: 14, paddingBottom: 6, alignContent: 'center', color: '#fff'}}>select expiration</Text>
                 </TouchableOpacity>
               </View>
             )
@@ -156,7 +158,7 @@ export default class Inventory extends React.Component {
             height: 30,
             borderRadius: 20,}}
             onPress={() => this.props.navigation.navigate('Home')}>
-            <Text style = {{fontSize: 18, paddingBottom: 6, alignContent: 'center', color: '#fff'}}>Done</Text>
+            <Text style = {{fontSize: 18, paddingBottom: 6, alignContent: 'center', color: '#fff'}}>done :)</Text>
           </TouchableOpacity> 
       </View>
     );

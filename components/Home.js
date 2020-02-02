@@ -77,7 +77,9 @@ export default class Home extends React.Component {
   renderItems() {
     return (this.state.fridgeList.map((fridgeItem, index) => {
       return (
-        <Item key={index} name={fridgeItem.FridgeId.S} expiration={fridgeItem.Exp.S} quantity={fridgeItem.quant.N}/>
+        <View style = {styles.data}>
+          <Item key={index} name={fridgeItem.FridgeId.S} expiration={fridgeItem.Exp.S} quantity={fridgeItem.quant.N}/>
+        </View> 
         //<Text key={index} style = {{fontSize: 25, paddingBottom: 6, alignContent: 'center', color: '#fff'}}>{fridgeItem.FridgeId.S}</Text>
       )
     }))
@@ -134,4 +136,9 @@ const styles = StyleSheet.create({
     color: 'white',
     height: '100%',
   },
+  data: {
+    paddingLeft: 50,
+    color: 'white',
+    paddingTop: 20,
+  }
 });
